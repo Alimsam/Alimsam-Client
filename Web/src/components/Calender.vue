@@ -9,6 +9,7 @@
             @select="handleSelect"
             @clickDate="handleDateClick"
             />
+            {{school}}
     </div>
 </template>
 
@@ -21,8 +22,18 @@ export default {
   components: {
     FullCalendar // make the <FullCalendar> tag available
   },
+  created () {
+    this.$http.get(`/calender`)
+        .then((response) => {
+          this.school = response.data
+        })
+        .catch((e)=>{
+          console.log(e)
+        })
+  },
   data() {
     return {
+      school : {},
         events:[
             { title: 'event 1', date: '2019-12-19' },
             { title: 'event 2', date: '2019-12-19' }
