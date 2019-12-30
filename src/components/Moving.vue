@@ -98,14 +98,6 @@ extend('required', {
     message: '{_field_} 입력칸이 공백입니다.'
 })
 
-
-// extend('positive', value => {
-//     if(typeof(value) === 'string') {
-//         return true
-//     }
-//     return "POSTIVE number"
-// })
-
 export default {
     computed: {
 
@@ -125,7 +117,7 @@ export default {
           place: place
         }
       }).then((response) => {
-        alert(response)
+        alert(response.data)
       })
     },
 

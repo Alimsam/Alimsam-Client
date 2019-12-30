@@ -67,22 +67,19 @@
                     </div>                    
                 </form>
             </ValidationObserver>
-            
-            <!-- <div v-if="ShowfingerBoolean == true">
-            <b-button v-b-modal.modal-center class="fingerbtn">지문등록하기</b-button> -->
-                <b-modal 
-                id="modal-center" 
-                centered title="FingerPrint" 
-                hide-footer="true"
-                no-close-on-backdrop
-                >
-                    <div class="fingerbtn_img">
-                        <img src="../assets/fingerp.png" width="30%">
-                    </div>
-                    <p class="my-4">지문인식 기계에 지문을 두 번 대어주세요</p>
-                </b-modal>
-            <!-- </div> -->
+            <b-modal 
+            id="modal-center" 
+            centered title="FingerPrint" 
+            hide-footer="true"
+            no-close-on-backdrop
+            >
+                <div class="fingerbtn_img">
+                    <img src="../assets/fingerp.png" width="30%">
+                </div>
+                <p class="my-4">지문인식 기계에 지문을 두 번 대주세요</p>
+            </b-modal>
         </b-modal>
+
         <b-modal 
         id="go_outting" 
         centered title="FingerPrint" 
@@ -92,8 +89,9 @@
             <div class="fingerbtn_img">
                 <img src="../assets/fingerp.png" width="30%">
             </div>
-            <p class="my-4">지문인식 기계에 지문을 두 번 대어주세요</p>
-        </b-modal>        
+            <p class="my-4">지문인식 기계에 지문을 한 번 대주세요</p>
+        </b-modal>
+
     </div>
   </div>
 </div>
@@ -146,7 +144,7 @@ export default {
                 studentID: this.studentID
             }
         }).then((response)=> {
-          alert(response)
+          alert(response.data)
         })
         this.ShowfingerBoolean = true
         setTimeout(() => {
@@ -159,7 +157,7 @@ export default {
       this.$http.get('/outing/fingerStart', {
 
       }).then((response) => {
-        alert(response)
+        alert(response.data)
       })
     },
     gotoMain(option) {
