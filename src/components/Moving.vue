@@ -32,48 +32,59 @@
     <p class = "grade_notice">자습하기</p>
     <b-container class="bv-example-row">
       <b-row class="place_row">
-        <b-col class="place_col"><button class = "place_btn" v-on:click="moving('1-1')">1-1</button></b-col>
-        <b-col class="place_col"><button class = "place_btn" v-on:click="moving('1-2')">1-2</button></b-col>
-        <b-col class="place_col"><button class = "place_btn" v-on:click="moving('1-3')">1-3</button></b-col>
-        <b-col class="place_col"><button class = "place_btn" v-on:click="moving('1-4')">1-4</button></b-col>
+        <b-col class="place_col"><button v-b-modal.go_outting class = "place_btn" v-on:click="moving('1-1')">1-1</button></b-col>
+        <b-col class="place_col"><button v-b-modal.go_outting class = "place_btn" v-on:click="moving('1-2')">1-2</button></b-col>
+        <b-col class="place_col"><button v-b-modal.go_outting class = "place_btn" v-on:click="moving('1-3')">1-3</button></b-col>
+        <b-col class="place_col"><button v-b-modal.go_outting class = "place_btn" v-on:click="moving('1-4')">1-4</button></b-col>
       </b-row>
     </b-container>
     <b-container class="bv-example-row">
       <b-row class="place_row">
-        <b-col class="place_col"><button class = "place_btn" v-on:click="moving('2-1')">2-1</button></b-col>
-        <b-col class="place_col"><button class = "place_btn" v-on:click="moving('2-2')">2-2</button></b-col>
-        <b-col class="place_col"><button class = "place_btn" v-on:click="moving('2-3')">2-3</button></b-col>
-        <b-col class="place_col"><button class = "place_btn" v-on:click="moving('2-4')">2-4</button></b-col>
+        <b-col class="place_col"><button v-b-modal.go_outting class = "place_btn" v-on:click="moving('2-1')">2-1</button></b-col>
+        <b-col class="place_col"><button v-b-modal.go_outting class = "place_btn" v-on:click="moving('2-2')">2-2</button></b-col>
+        <b-col class="place_col"><button v-b-modal.go_outting class = "place_btn" v-on:click="moving('2-3')">2-3</button></b-col>
+        <b-col class="place_col"><button v-b-modal.go_outting class = "place_btn" v-on:click="moving('2-4')">2-4</button></b-col>
       </b-row>
     </b-container>
     <b-container class="bv-example-row">
       <b-row class="place_row">
-        <b-col class="place_col"><button class = "place_btn" v-on:click="moving('3-1')">3-1</button></b-col>
-        <b-col class="place_col"><button class = "place_btn" v-on:click="moving('3-2')">3-2</button></b-col>
-        <b-col class="place_col"><button class = "place_btn" v-on:click="moving('3-3')">3-3</button></b-col>
-        <b-col class="place_col"><button class = "place_btn" v-on:click="moving('3-4')">3-4</button></b-col>
+        <b-col class="place_col"><button v-b-modal.go_outting class = "place_btn" v-on:click="moving('3-1')">3-1</button></b-col>
+        <b-col class="place_col"><button v-b-modal.go_outting class = "place_btn" v-on:click="moving('3-2')">3-2</button></b-col>
+        <b-col class="place_col"><button v-b-modal.go_outting class = "place_btn" v-on:click="moving('3-3')">3-3</button></b-col>
+        <b-col class="place_col"><button v-b-modal.go_outting class = "place_btn" v-on:click="moving('3-4')">3-4</button></b-col>
       </b-row>
     </b-container>
     <b-container class="bv-example-row">
       <b-row class="place_row">
-        <b-col class="place_col"><button class = "place_btn_special" v-on:click="moving('멀/미 1실')">멀/미 1실</button></b-col>
-        <b-col class="place_col"><button class = "place_btn_special" v-on:click="moving('멀/미 2실')">멀/미 2실</button></b-col>
-        <b-col class="place_col"><button class = "place_btn_special" v-on:click="moving('소/개 1실')">소/개 1실</button></b-col>
-        <b-col class="place_col"><button class = "place_btn_special" v-on:click="moving('소/개 2실')">소/개 2실</button></b-col>
-        <b-col class="place_col"><button class = "place_btn_special" v-on:click="moving('임베디드실')">임베디드실</button></b-col>
-        <b-col class="place_col"><button class = "place_btn_special" v-on:click="moving('IOT실')">IOT실</button></b-col>
+        <b-col class="place_col"><button v-b-modal.go_outting class = "place_btn_special" v-on:click="moving('멀/미 1실')">멀/미 1실</button></b-col>
+        <b-col class="place_col"><button v-b-modal.go_outting class = "place_btn_special" v-on:click="moving('멀/미 2실')">멀/미 2실</button></b-col>
+        <b-col class="place_col"><button v-b-modal.go_outting class = "place_btn_special" v-on:click="moving('소/개 1실')">소/개 1실</button></b-col>
+        <b-col class="place_col"><button v-b-modal.go_outting class = "place_btn_special" v-on:click="moving('소/개 2실')">소/개 2실</button></b-col>
+        <b-col class="place_col"><button v-b-modal.go_outting class = "place_btn_special" v-on:click="moving('임베디드실')">임베디드실</button></b-col>
+        <b-col class="place_col"><button v-b-modal.go_outting class = "place_btn_special" v-on:click="moving('IOT실')">IOT실</button></b-col>
       </b-row>
     </b-container>
     <b-container class="bv-example-row">
       <b-row class="place_row">
-        <b-col class="place_col"><button class = "place_btn_special" v-on:click="moving('음악실')">음악실</button></b-col>
-        <b-col class="place_col"><button class = "place_btn_special" v-on:click="moving('강당')">강당</button></b-col>
-        <b-col class="place_col"><button class = "place_btn_special" v-on:click="moving('전기실습실')">전기실습실</button></b-col>
-        <b-col class="place_col"><button class = "place_btn_special" v-on:click="moving('UI/UX실')">UI/UX실</button></b-col>
-        <b-col class="place_col"><button class = "place_btn_special" v-on:click="moving('학생부실')">학생부실</button></b-col>
-        <b-col class="place_col"><button class = "place_btn_special" v-on:click="moving('교무실')">교무실</button></b-col>
+        <b-col class="place_col"><button v-b-modal.go_outting class = "place_btn_special" v-on:click="moving('음악실')">음악실</button></b-col>
+        <b-col class="place_col"><button v-b-modal.go_outting class = "place_btn_special" v-on:click="moving('강당')">강당</button></b-col>
+        <b-col class="place_col"><button v-b-modal.go_outting class = "place_btn_special" v-on:click="moving('전기실습실')">전기실습실</button></b-col>
+        <b-col class="place_col"><button v-b-modal.go_outting class = "place_btn_special" v-on:click="moving('UI/UX실')">UI/UX실</button></b-col>
+        <b-col class="place_col"><button v-b-modal.go_outting class = "place_btn_special" v-on:click="moving('학생부실')">학생부실</button></b-col>
+        <b-col class="place_col"><button v-b-modal.go_outting class = "place_btn_special" v-on:click="moving('교무실')">교무실</button></b-col>
       </b-row>
-    </b-container>    
+    </b-container>
+      <b-modal 
+      id="go_outting" 
+      centered title="FingerPrint" 
+      hide-footer="true"
+      no-close-on-backdrop
+      >
+          <div class="fingerbtn_img">
+              <img src="../assets/fingerp.png" width="30%">
+          </div>
+          <p class="my-4">지문인식 기계에 지문을 한 번 대주세요</p>
+      </b-modal>    
     </div>
     </div>
 </div>
@@ -117,7 +128,10 @@ export default {
           place: place
         }
       }).then((response) => {
-        alert(response.data)
+        if(response.data == true){
+          console.log(response.data)
+          this.$bvModal.hide('go_outting')
+        }
       })
     },
 

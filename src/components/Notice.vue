@@ -51,7 +51,7 @@
           <div v-if="data_boolean != '공지사항이 없어용' && only_grade_boolean == false" class="griding">
             <div class="grid_span">
               <div v-for="index in rsp_data" v-bind:key="index.key" class="postit">
-                <span><button class = "del_btn" v-on:click="del_btn(index)">❌</button></span>
+                <span><button v-b-modal.del_modal class = "del_btn" v-on:click="del_btn(index)">❌</button></span>
                 <div is= "notice" v-bind:sDate="index.startDate" v-bind:eDate="index.endDate"></div>                
                 <div is= "notice_content" v-bind:content="index.content"></div>
               </div>
@@ -66,7 +66,7 @@
           <div v-if="data_boolean != '공지사항이 없어용' && only_grade_boolean == false" class="griding">
             <div class="grid_span">
               <div v-for="index in rsp_data" v-bind:key="index.key" class="postit">
-                <span><button class = "del_btn" v-on:click="del_btn(2)">❌</button></span>
+                <span><button v-b-modal.del_modal class = "del_btn" v-on:click="del_btn(index)">❌</button></span>
                 <div is= "notice" v-bind:sDate="index.startDate" v-bind:eDate="index.endDate"></div>                
                 <div is= "notice_content" v-bind:content="index.content"></div>
               </div>
@@ -81,7 +81,7 @@
           <div v-if="data_boolean != '공지사항이 없어용' && only_grade_boolean == false" class="griding">
             <div class="grid_span">
               <div v-for="index in rsp_data" v-bind:key="index.key" class="postit">
-                <span><button class = "del_btn" v-on:click="del_btn(index)">❌</button></span>
+                <span><button v-b-modal.del_modal class = "del_btn" v-on:click="del_btn(index)">❌</button></span>
                 <div is= "notice" v-bind:sDate="index.startDate" v-bind:eDate="index.endDate"></div>                
                 <div is= "notice_content" v-bind:content="index.content"></div>
               </div>
@@ -89,13 +89,32 @@
           </div>
       </div>      
     </div>
+
     <div class="addNotice">
       <b-button v-b-modal.modal_addNotice variant="outline-primary" size="lg">공지 등록</b-button>
     </div>
 
-    <!-- <div class="hellodiv">
-      <p class="plznotice">공지사항이 없습니다 새로운 공지사항을 등록해보세요!</p>
-    </div> -->
+    <b-modal 
+    id="del_modal"
+    centered title="공지삭제" 
+    hide-footer="true"
+    no-close-on-backdrop
+    >
+      <ValidationObserver v-slot="{invalid}">
+          <form @submit.prevent="del_submit" method="GET">
+              <ValidationProvider rules="required|integer" v-slot="{ errors }" name="학번">
+                <div class = "form_group">
+                  <input v-model="input_delkey" type="text" placeholder="삭제키" class = "form_field" id="Del" autocomplete="off">
+                  <label for="Del" class="form_label">삭제키</label>
+                  <div class = "form_error">{{ errors[0] }}</div>
+                </div>                      
+              </ValidationProvider>                            
+              <div>
+                  <button type="submit" class="form_submit" :disabled="invalid">삭제하기</button>
+              </div>                    
+          </form>
+      </ValidationObserver>
+    </b-modal>
 
     <div class="div_div">
         <b-modal
@@ -243,6 +262,12 @@ export default {
         key: '',
         key_success_option: false,
         option_value: '',
+        del_key: 2002,
+        input_delkey: '',
+        del_class: '',
+        del_startDate: '',
+        del_endDate: '',
+        del_content: ''
     }
   },
 
@@ -317,9 +342,33 @@ export default {
               this.grade_number = ''
           })
         }
-        // const randomColor = '#'+(Math.random()*0xFFFFFF<<0).toString(16)
-
-
+    },
+    del_submit() {
+        if(this.input_delkey == this.del_key){
+          this.$http.get('/notice/deleteNotice', {
+              params: {
+                  class : this.del_class,
+                  startDate: this.del_startDate,
+                  endDate: this.del_endDate,
+                  content: this.del_content
+              }
+          }).then((response)=> {
+            console.log(response)
+            this.$swal("좋아요!", "공지가 성공적으로 삭제 되었습니다", "success")
+            this.$bvModal.hide('del_modal')
+            this.$http.get('/notice/getNotice', {
+              params: {
+                startMonth: `${curyear}-${curmonth}`,
+                class: this.del_class
+              }
+            }).then((response)=> {
+              this.rsp_data = response.data
+              console.log("GET!")
+            })
+          })          
+        } else {
+          alert("메롱")
+        }      
     },
     f_grade(option) {
       this.show_grade = option
@@ -423,26 +472,10 @@ export default {
       })
     },
     del_btn(key){
-        this.$http.get('/notice/deleteNotice', {
-            params: {
-                class : `${this.show_grade}${this.show_class}`,
-                startDate: key.startDate,
-                endDate: key.endDate,
-                content: key.content
-            }
-        }).then((response)=> {
-          console.log(response)
-          alert("데이터 삭제 완료!")
-          this.$http.get('/notice/getNotice', {
-            params: {
-              startMonth: `${curyear}-${curmonth}`,
-              class: `${this.show_grade}${this.show_class}`
-            }
-          }).then((response)=> {
-            this.rsp_data = response.data
-            console.log("GET!")
-          })
-        })
+        this.del_class = `${this.show_grade}${this.show_class}`
+        this.del_startDate = key.startDate
+        this.del_endDate = key.endDate
+        this.del_content = key.content
     },
     gotoMain(option) {
       this.$router.push({name : option})
@@ -586,7 +619,7 @@ export default {
     font-weight: 600;
     color:black;
     font-size:2em;
-    margin-left: 10%;
+    margin-left: -5%;
   }
 
   .grade_text{

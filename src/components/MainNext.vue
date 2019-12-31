@@ -159,7 +159,6 @@ export default {
 
   .hellodiv{
     text-align: center;
-    margin-left: 10%;
   }
 
   .hellotext{

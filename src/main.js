@@ -23,7 +23,6 @@ Vue.prototype.$http = axios;
 axios.defaults.baseURL = 'http://10.120.73.120:3000/';
 axios.defaults.headers.common["Access-Control-Allow-Origin"] = "*"
 axios.defaults.headers.common['Access-Control-Allow-Headers'] = 'Authorization, Content-Type'
-
 new Vue({
   render: h => h(App),
   router

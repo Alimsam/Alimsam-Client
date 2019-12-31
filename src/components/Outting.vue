@@ -35,7 +35,7 @@
 
     <div class="hellodiv">
       <b-button v-b-modal.modal-prevent-closing variant="outline-primary" class = "plznotice">지문등록</b-button>
-      <b-button v-b-modal.go_outting variant="outline-primary" class = "plznotice" v-on:click="go_out()">외출하기</b-button>
+      <b-button v-b-modal.modal-out variant="outline-primary" class = "plznotice" v-on:click="go_out()">외출하기</b-button>
 
         <b-modal 
         hide-footer="true"
@@ -81,7 +81,7 @@
         </b-modal>
 
         <b-modal 
-        id="go_outting" 
+        id="modal-out" 
         centered title="FingerPrint" 
         hide-footer="true"
         no-close-on-backdrop
@@ -144,7 +144,11 @@ export default {
                 studentID: this.studentID
             }
         }).then((response)=> {
-          alert(response.data)
+          if(response.data == true){
+            console.log(response.data)
+            this.$bvModal.hide('modal-prevent-closing')
+            this.$bvModal.hide('modal-center')
+          }
         })
         this.ShowfingerBoolean = true
         setTimeout(() => {
@@ -157,9 +161,13 @@ export default {
       this.$http.get('/outing/fingerStart', {
 
       }).then((response) => {
-        alert(response.data)
+        if(response.data == true){
+            console.log(response.data)
+            this.$bvModal.hide('modal-out')
+        }
       })
     },
+    
     gotoMain(option) {
       this.$router.push({name : option})
     },
