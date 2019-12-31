@@ -145,10 +145,38 @@ export default {
             }
         }).then((response)=> {
           if(response.data == true){
-            console.log(response.data)
+            
+            this.$swal("좋아요!", "지문이 성공적으로 등록 되었습니다", "success")
+            this.$bvModal.hide('modal-prevent-closing')
+            this.$bvModal.hide('modal-center')
+          } else if (response.data == false){
+            this.$swal({
+                icon: 'error',
+                title: '이런!',
+                text: '지문인식이 제대로 되지 않았어요!',
+                footer: '죄송합니다. 한번 더 등록절차를 밟아주세요'
+            })
+            this.$bvModal.hide('modal-prevent-closing')
+            this.$bvModal.hide('modal-center')                        
+          } else if (response.data == 'already'){
+            this.$swal({
+                icon: 'info',
+                title: '이런!',
+                text: '지문이 이미 존재합니다!',
+                footer: '바로 외출하기를 눌러보세요.'
+            })
             this.$bvModal.hide('modal-prevent-closing')
             this.$bvModal.hide('modal-center')
           }
+        }).catch(e => {
+        this.$swal({
+                icon: 'error',
+                title: `코드 : ${e}`,
+                text: '에러가 발생했어요..',
+                footer: '죄송합니다. 다시 시도 해 주세요'
+            })
+            this.$bvModal.hide('modal-prevent-closing')
+            this.$bvModal.hide('modal-center')
         })
         this.ShowfingerBoolean = true
         setTimeout(() => {
@@ -161,10 +189,29 @@ export default {
       this.$http.get('/outing/fingerStart', {
 
       }).then((response) => {
-        if(response.data == true){
-            console.log(response.data)
+        if(response.data == 'out'){
             this.$bvModal.hide('modal-out')
-        }
+            this.$swal("좋아요!", "꼭 늦지 않게 돌아오세요", "success")
+        } else if(response.data == 'back') {
+          this.$bvModal.hide('modal-out')
+          this.$swal("좋아요!", "귀가시간이 등록 되었습니다.", "success")
+        } else if (response.data == false){
+            this.$swal({
+                icon: 'error',
+                title: '이런!',
+                text: '지문인식이 제대로 되지 않았어요!',
+                footer: '죄송합니다. 다시 시도 해 주세요'
+            })          
+            this.$bvModal.hide('modal-out')                      
+          }
+      }).catch((e) => {
+        this.$swal({
+                icon: 'error',
+                title: `코드 : ${e}`,
+                text: '에러가 발생했어요..',
+                footer: '죄송합니다. 다시 시도 해 주세요'
+            })          
+        this.$bvModal.hide('modal-out')                              
       })
     },
     

@@ -129,8 +129,15 @@ export default {
         }
       }).then((response) => {
         if(response.data == true){
-          console.log(response.data)
+          this.$swal("좋아요!", "이동상황이 저장 되었습니다.", "success")
           this.$bvModal.hide('go_outting')
+        } else {
+          this.$swal({
+              icon: 'error',
+              title: '이런!',
+              text: '지문인식이 제대로 되지 않았어요!',
+              footer: '죄송합니다. 다시 시도 해 주세요'
+          })          
         }
       })
     },
