@@ -198,14 +198,22 @@ export default {
           dnext = 2
         }else if(curday==endday-1){
           dnext = 1
+        }else if(curday==1){
+          dbefore = endday-1
+          before = endday
+        }else if(curday==2){
+          dbefore = endday
         }
         this.meal_dbefore = (response.data[dbefore])
         this.meal_before = (response.data[before])
         this.meal_cur =  (response.data[curday])
         this.meal_next = (response.data[next])
         this.meal_dnext = (response.data[dnext])
-        console.log(this.meal_dnext)
-        console.log(this.meal_cur.breakfast)
+        console.log("그제\n",this.meal_dbefore.breakfast)
+        console.log("어제\n",this.meal_before.breakfast)
+        console.log("오늘\n",this.meal_cur.breakfast)
+        console.log("내일\n",this.meal_next.breakfast)
+        console.log("모레\n",this.meal_dnext.breakfast)
       }).catch(e => {
         console.log("ERROR " + e)
       })
