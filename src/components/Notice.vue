@@ -12,18 +12,20 @@
       <div class="snowflake">❄</div>
   <div class="hello">
     <div class="topnav">
-      <img src="../assets/third.png" width="10%" class="topimg">
+      <img src="../assets/third.png" width="10%" class="topimg" v-on:click="realMain('Main')">
     </div>    
     <div class = "wrapper">
       <nav class="sidebar">
-        <button class="sidebar-header" v-on:click="gotoMain('MainNext')">
-          <h2>알림쌤</h2>
-        </button>
+        <div class="header">
+          <button class="sidebar-header" v-on:click="gotoMain('MainNext')">
+            <h2><b>AlimSam</b></h2>
+          </button>          
+        </div>
         <div class="group">
-          <button class = "sidemenu" v-on:click="gotoMeal('Meal')"><span><img src="../assets/meal2.png" width="40%" class="icon"></span><span><img src="../assets/school.png" width="40%" class="icon"></span><h4>급식/학사일정 확인</h4></button>
-          <button class = "sidemenu" v-on:click="gotoNotice('Notice')"><span><img src="../assets/schedule.png" width="40%" class="icon"></span><h4>공지사항 확인</h4></button>
-          <button class = "sidemenu" v-on:click="gotoOutting('Outting')"><span><img src="../assets/out.png" width="40%" class="icon"></span><h4>저녁외출</h4></button>
-          <button class = "sidemenu" v-on:click="gotoMoving('Moving')"><span><img src="../assets/run2.png" width="40%" class="icon"></span><h4>자습이동</h4></button>          
+          <button class = "sidemenu" v-on:click="gotoMeal('Meal')"><span><img src="../assets/meal2.png" width="40%" class="icon"></span><span><img src="../assets/school.png" width="40%" class="icon"></span><h4><b>급식/학사일정 확인</b></h4></button>
+          <button class = "sidemenu" v-on:click="gotoNotice('Notice')"><span><img src="../assets/schedule.png" width="40%" class="icon"></span><h4><b>공지사항 확인</b></h4></button>
+          <button class = "sidemenu" v-on:click="gotoOutting('Outting')"><span><img src="../assets/out.png" width="40%" class="icon"></span><h4><b>저녁외출</b></h4></button>
+          <button class = "sidemenu" v-on:click="gotoMoving('Moving')"><span><img src="../assets/run2.png" width="40%" class="icon"></span><h4><b>자습이동</b></h4></button>          
         </div>
         <div class = "copydiv"><p class = "copyright">Copyright.2019.MSD.All rights reserved.</p></div>
       </nav>
@@ -145,7 +147,7 @@
 
             <div v-if="key_success_option == true">
                 <p class="grade_text"><b>{{option_value}}</b></p>
-                <b-button v-b-modal.modal_success class="fingerbtn">인증완료</b-button>
+                <b-button v-b-modal.modal_success class="fingerbtn">등록하기</b-button>
                 <b-modal 
                 id="modal_success" 
                 ref="content_modal"
@@ -208,7 +210,8 @@
 
 <script>
 const date = new Date()
-const curmonth = date.getMonth()+1
+var curmonth = date.getMonth()+1
+curmonth = curmonth.toString().length < 2 ? curmonth = "0"+curmonth : curmonth;
 const curyear = date.getFullYear()
 
 import format from 'date-fns/format'
@@ -477,6 +480,9 @@ export default {
         this.del_endDate = key.endDate
         this.del_content = key.content
     },
+    realMain(option) {
+      this.$router.push({name : option})
+    },    
     gotoMain(option) {
       this.$router.push({name : option})
     },
@@ -519,7 +525,7 @@ export default {
   }
 
   .copyright{
-    padding-top: 50%;
+    padding-top: 70%;
     font-size:0.8em;
     color: #859199;
   }

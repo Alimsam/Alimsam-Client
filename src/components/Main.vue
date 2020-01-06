@@ -9,7 +9,7 @@
           <div><img src="../assets/third.png" width="45%"></div>
           <div><p>Beta v0.1 AlimSam</p></div>
         </div>
-        <div>
+        <div class = "main">
           <img src="../assets/Main.png" width="100%" height="100%">
         </div>
       </div>
@@ -37,7 +37,6 @@ export default {
 
 <style scope>
 @import url('https://fonts.googleapis.com/css?family=Noto+Sans+KR:500&display=swap');
-
 .main-grid{
   display:grid;
   grid-template-columns: 50% 50%;

@@ -1,18 +1,31 @@
 <template>
   <div class='app'>
+  <div class="snowflakes" aria-hidden="true">
+      <div class="snowflake">❄</div>
+      <div class="snowflake">❄</div>
+      <div class="snowflake">❄</div>
+      <div class="snowflake">❄</div>
+      <div class="snowflake">❄</div>
+      <div class="snowflake">❄</div>
+      <div class="snowflake">❄</div>
+      <div class="snowflake">❄</div>
+      <div class="snowflake">❄</div>
+      <div class="snowflake">❄</div>    
     <div class="topnav">
-      <img src="../assets/third.png" width="10%" class="topimg">
+      <img src="../assets/third.png" width="10%" class="topimg" v-on:click="realMain('Main')">
     </div>
     <div class = "wrapper">
       <nav class="sidebar">
-        <button class="sidebar-header" v-on:click="gotoMain('MainNext')">
-          <h2>알림쌤</h2>
-        </button>
+        <div class="header">
+          <button class="sidebar-header" v-on:click="gotoMain('MainNext')">
+            <h2><b>AlimSam</b></h2>
+          </button>          
+        </div>
         <div class="group">
-          <button class = "sidemenu" v-on:click="gotoMeal('Meal')"><span><img src="../assets/meal2.png" width="40%" class="icon"></span><span><img src="../assets/school.png" width="40%" class="icon"></span><h4>급식/학사일정 확인</h4></button>
-          <button class = "sidemenu" v-on:click="gotoNotice('Notice')"><span><img src="../assets/schedule.png" width="40%" class="icon"></span><h4>공지사항 확인</h4></button>
-          <button class = "sidemenu" v-on:click="gotoOutting('Outting')"><span><img src="../assets/out.png" width="40%" class="icon"></span><h4>저녁외출</h4></button>
-          <button class = "sidemenu" v-on:click="gotoMoving('Moving')"><span><img src="../assets/run2.png" width="40%" class="icon"></span><h4>자습이동</h4></button>          
+          <button class = "sidemenu" v-on:click="gotoMeal('Meal')"><span><img src="../assets/meal2.png" width="40%" class="icon"></span><span><img src="../assets/school.png" width="40%" class="icon"></span><h4><b>급식/학사일정 확인</b></h4></button>
+          <button class = "sidemenu" v-on:click="gotoNotice('Notice')"><span><img src="../assets/schedule.png" width="40%" class="icon"></span><h4><b>공지사항 확인</b></h4></button>
+          <button class = "sidemenu" v-on:click="gotoOutting('Outting')"><span><img src="../assets/out.png" width="40%" class="icon"></span><h4><b>저녁외출</b></h4></button>
+          <button class = "sidemenu" v-on:click="gotoMoving('Moving')"><span><img src="../assets/run2.png" width="40%" class="icon"></span><h4><b>자습이동</b></h4></button>          
         </div>
         <div class = "copydiv"><p class = "copyright">Copyright.2019.MSD.All rights reserved.</p></div>
       </nav>
@@ -139,6 +152,7 @@
         </div>
       </div>
     </div>
+    </div>
   </div>
 </template>
 
@@ -209,11 +223,7 @@ export default {
         this.meal_cur =  (response.data[curday])
         this.meal_next = (response.data[next])
         this.meal_dnext = (response.data[dnext])
-        console.log("그제\n",this.meal_dbefore.breakfast)
-        console.log("어제\n",this.meal_before.breakfast)
-        console.log("오늘\n",this.meal_cur.breakfast)
-        console.log("내일\n",this.meal_next.breakfast)
-        console.log("모레\n",this.meal_dnext.breakfast)
+
       }).catch(e => {
         console.log("ERROR " + e)
       })
@@ -256,7 +266,9 @@ export default {
         this.show_boolean = boolean
         console.log(this.show_boolean)
       },
-
+      realMain(option) {
+        this.$router.push({name : option})
+      },
       gotoMain(option) {
         this.$router.push({name : option})
       },
@@ -289,7 +301,7 @@ export default {
 </script>
 
 <style lang='scss'>
-@import url('https://fonts.googleapis.com/css?family=Noto+Sans+KR:500&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Noto+Sans+KR:600&display=swap');
 @import url('https://fonts.googleapis.com/css?family=Nanum+Pen+Script&display=swap');
 @import url('https://fonts.googleapis.com/css?family=Yeon+Sung&display=swap&subset=korean');
 
@@ -302,12 +314,6 @@ export default {
   text-align: right;
   vertical-align: center;
   padding-right:4%;
-}
-
-.copyright{
-  padding-top: 50%;
-  font-size:0.8em;
-  color: #859199;
 }
 
 .copydiv{
@@ -331,6 +337,17 @@ export default {
   float:left;
   background:#F9F9F9;
   display: table;
+}
+
+.header{
+  margin-top:10%;
+  margin-bottom:50%;
+}
+
+.copyright{
+  // padding-top: 70%;
+  font-size:0.8em;
+  color: #859199;
 }
 
 .sidebar .sidebar-header {
@@ -362,7 +379,7 @@ export default {
 
   .sidemenu{
     padding:5%;
-    font-family: 'NanumSquare', sans-serif;
+    font-family: 'Noto Sans KR', sans-serif;
     border:0;
     outline: 0;
     background-color: transparent;
@@ -419,7 +436,7 @@ p .hometext{
 .cal_text{
   color:  #6C63FF;
   font-size: 1.2em;
-  font-family: 'Noto Sans KR', sans-serif;  
+  font-family: 'Noto Sans KR', sans-serif;
 }
 
 

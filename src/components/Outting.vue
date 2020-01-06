@@ -12,18 +12,20 @@
       <div class="snowflake">❄</div>
   <div class="hello">
     <div class="topnav">
-      <img src="../assets/third.png" width="10%" class="topimg">
+      <img src="../assets/third.png" width="10%" class="topimg" v-on:click="realMain('Main')">
     </div>    
     <div class = "wrapper">
       <nav class="sidebar">
-        <button class="sidebar-header" v-on:click="gotoMain('MainNext')">
-          <h2>알림쌤</h2>
-        </button>
+        <div class="header">
+          <button class="sidebar-header" v-on:click="gotoMain('MainNext')">
+            <h2><b>AlimSam</b></h2>
+          </button>          
+        </div>
         <div class="group">
-          <button class = "sidemenu" v-on:click="gotoMeal('Meal')"><span><img src="../assets/meal2.png" width="40%" class="icon"></span><span><img src="../assets/school.png" width="40%" class="icon"></span><h4>급식/학사일정 확인</h4></button>
-          <button class = "sidemenu" v-on:click="gotoNotice('Notice')"><span><img src="../assets/schedule.png" width="40%" class="icon"></span><h4>공지사항 확인</h4></button>
-          <button class = "sidemenu" v-on:click="gotoOutting('Outting')"><span><img src="../assets/out.png" width="40%" class="icon"></span><h4>저녁외출</h4></button>
-          <button class = "sidemenu" v-on:click="gotoMoving('Moving')"><span><img src="../assets/run2.png" width="40%" class="icon"></span><h4>자습이동</h4></button>          
+          <button class = "sidemenu" v-on:click="gotoMeal('Meal')"><span><img src="../assets/meal2.png" width="40%" class="icon"></span><span><img src="../assets/school.png" width="40%" class="icon"></span><h4><b>급식/학사일정 확인</b></h4></button>
+          <button class = "sidemenu" v-on:click="gotoNotice('Notice')"><span><img src="../assets/schedule.png" width="40%" class="icon"></span><h4><b>공지사항 확인</b></h4></button>
+          <button class = "sidemenu" v-on:click="gotoOutting('Outting')"><span><img src="../assets/out.png" width="40%" class="icon"></span><h4><b>저녁외출</b></h4></button>
+          <button class = "sidemenu" v-on:click="gotoMoving('Moving')"><span><img src="../assets/run2.png" width="40%" class="icon"></span><h4><b>자습이동</b></h4></button>          
         </div>
         <div class = "copydiv"><p class = "copyright">Copyright.2019.MSD.All rights reserved.</p></div>
       </nav>
@@ -34,8 +36,11 @@
     </div>
 
     <div class="hellodiv">
-      <b-button v-b-modal.modal-prevent-closing variant="outline-primary" class = "plznotice">지문등록</b-button>
-      <b-button v-b-modal.modal-out variant="outline-primary" class = "plznotice" v-on:click="go_out()">외출하기</b-button>
+      <b-button v-b-modal.modal-out variant="outline-primary" class = "plznotice" v-on:click="go_out()">외출 / 복귀하기</b-button>
+      <b-button v-b-modal.prohibit-out variant="outline-primary" class = "DontOut_text"><b>외출 금지</b></b-button>
+      <div>
+        <button v-b-modal.modal-prevent-closing class = "register_finger">아직 지문을 등록하지 않으셨다면?</button>
+      </div>
 
         <b-modal 
         hide-footer="true"
@@ -92,6 +97,62 @@
             <p class="my-4">지문인식 기계에 지문을 한 번 대주세요</p>
         </b-modal>
 
+          <b-modal
+            hide-header-close
+            hide-footer="true"
+            id="prohibit-out"
+            ref="modal"
+            title="학년부 선생님이신가요? 키를 입력해주세요."
+            @show="resetModal"
+            @hidden="resetModal"
+            @ok="handleOk"
+            >
+
+            <ValidationObserver v-slot="{invalid}" v-if="key_success_option == ''">
+                <form @submit.prevent="prohibit_checkValue">
+                    <ValidationProvider rules="required|integer" v-slot="{ errors }" name="키">
+                        <div class = "form_group">
+                            <input v-model="key" type="text" placeholder="키" class = "form_field" id="key" autocomplete="off">
+                            <label for="key" class="form_label">키</label>
+                            <div class = "form_error">{{ errors[0] }}</div>
+                        </div>
+                    </ValidationProvider>
+                    <div>
+                        <button type="submit" class="form_submit" :disabled="invalid">인증하기</button>
+                    </div>
+                </form>
+            </ValidationObserver>
+
+          <div v-if="key_success_option == true">
+            <p class="grade_text"><b>{{option_value}}</b></p>
+            <b-button v-b-modal.prohibit-out-add class="fingerbtn">추가하기</b-button>            
+
+            <b-modal
+            hide-footer="true"
+            id="prohibit-out-add"
+            ref="modal"
+            title="금지시킬 학생의 학번을 입력해주세요!"
+            @show="resetModal"
+            @hidden="resetModal"
+            @ok="handleOk"
+            >
+                <ValidationObserver v-slot="{invalid}">
+                    <form @submit.prevent="onProhibit" method="GET">
+                        <ValidationProvider rules="required|integer" v-slot="{ errors }" name="학번">
+                        <div class = "form_group">
+                            <input v-model="studentID" type="text" placeholder="학번(ex 1학년 1반 6번: 1106)" class = "form_field" id="ID" autocomplete="off">
+                            <label for="ID" class="form_label">학번(ex 1학년 1반 6번: 1106)</label>
+                            <div class = "form_error">{{ errors[0] }}</div>
+                          </div>                      
+                        </ValidationProvider>
+                        <div>
+                            <button type="submit" class="form_submit" :disabled="invalid">등록하기</button>                        
+                        </div>                    
+                    </form>
+                </ValidationObserver>
+            </b-modal>
+          </div>
+        </b-modal>
     </div>
   </div>
 </div>
@@ -116,27 +177,67 @@ extend('required', {
     message: '{_field_} 입력칸이 공백입니다.'
 })
 
-
-// extend('positive', value => {
-//     if(typeof(value) === 'string') {
-//         return true
-//     }
-//     return "POSTIVE number"
-// })
-
 export default {
     computed: {
 
-    },    
+    },
+    mounted (){
+      const register_finger = document.querySelector('.register_finger')
+      register_finger.addEventListener("mouseover", (event)=>{
+        event.target.style.color="#6C63FF"
+      })
+      register_finger.addEventListener("mouseleave", (event)=>{
+        event.target.style.color="gray"
+      })
+    },
   data () {
     return{
         name: '',
         studentID: '',
         ShowfingerBoolean: false,
-        fingerBoolean: ''
+        fingerBoolean: '',
+        first_key: '202020',       
+        key_success_option: false, 
     }
   },
   methods: {
+    prohibit_checkValue(){
+        if(this.key == this.first_key){
+            this.key_success_option = true
+            this.key = ''
+            this.option_value = '선생님 안녕하세요!'
+        } else {
+            this.$swal({
+                icon: 'error',
+                title: '이런!',
+                text: '담당 선생님이 아니신가요?',
+                footer: '담당 선생님만 외출 금지 기능을 사용하실 수 있습니다.'
+            })
+        }
+    },
+    onProhibit() {
+      this.$http.get('/outing/prohibitOuting', {
+        params:{
+          studentID: this.studentID
+        }
+      }).then((response)=> {
+        if(response.data.result == 'prohibit'){
+          this.studentID = ''
+          this.$swal("좋아요!", `${response.data.name} 학생이 외출금지 목록에 추가 완료 되었습니다!`, "success")
+        } else if(response.data.result == 'permit') {
+          this.studentID = ''
+          this.$swal("좋아요!", `${response.data.name} 학생의 외출금지가 풀렸습니다.`, "success")
+        }
+      }).catch(e => {
+        this.$swal({
+                icon: 'error',
+                title: `코드 : ${e}`,
+                text: '에러가 발생했어요..',
+                footer: '죄송합니다. 다시 시도 해 주세요'
+            })
+            this.$bvModal.hide('')
+      })
+    },
     onSubmit() {
         this.$http.get('/register/fingerStart', {
             params:{
@@ -144,12 +245,11 @@ export default {
                 studentID: this.studentID
             }
         }).then((response)=> {
-          if(response.data == true){
-            
-            this.$swal("좋아요!", "지문이 성공적으로 등록 되었습니다", "success")
+          if(response.data.result == 'true'){
+            this.$swal("좋아요!", `${response.data.name}님 지문이 성공적으로 등록 되었습니다`, "success")
             this.$bvModal.hide('modal-prevent-closing')
             this.$bvModal.hide('modal-center')
-          } else if (response.data == false){
+          } else if (response.data == 'false'){
             this.$swal({
                 icon: 'error',
                 title: '이런!',
@@ -187,22 +287,29 @@ export default {
     },
     go_out(){
       this.$http.get('/outing/fingerStart', {
-
+        
       }).then((response) => {
-        if(response.data == 'out'){
+        if(response.data.result == 'out'){
             this.$bvModal.hide('modal-out')
-            this.$swal("좋아요!", "꼭 늦지 않게 돌아오세요", "success")
-        } else if(response.data == 'back') {
+            this.$swal("좋아요!", `${response.data.name}님 꼭 늦지 않게 돌아오세요`, "success")
+        } else if(response.data.result == 'back') {
           this.$bvModal.hide('modal-out')
-          this.$swal("좋아요!", "귀가시간이 등록 되었습니다.", "success")
-        } else if (response.data == false){
+          this.$swal("좋아요!", `${response.data.name}님 귀가시간이 등록 되었습니다.`, "success")
+        } else if (response.data == 'false'){
             this.$swal({
                 icon: 'error',
                 title: '이런!',
                 text: '지문인식이 제대로 되지 않았어요!',
                 footer: '죄송합니다. 다시 시도 해 주세요'
             })          
-            this.$bvModal.hide('modal-out')                      
+            this.$bvModal.hide('modal-out')                     
+          } else if(response.data == 'unable'){
+            this.$swal({
+                icon: 'error',
+                title: '이런!',
+                text: '외출금지를 당한 학생입니다',
+                footer: '담당선생님께 문의해보세요.'
+            })              
           }
       }).catch((e) => {
         this.$swal({
@@ -214,7 +321,9 @@ export default {
         this.$bvModal.hide('modal-out')                              
       })
     },
-    
+    realMain(option) {
+      this.$router.push({name : option})
+    },     
     gotoMain(option) {
       this.$router.push({name : option})
     },
@@ -246,6 +355,20 @@ $secondary: #38ef7d;
 $white: #fff;
 $gray: #9b9b9b;
 
+.DontOut{
+  text-align: right;
+  margin-right:4%;
+}
+
+.DontOut_text{
+  font-family: 'Noto Sans KR', sans-serif;
+  margin-left: 1%;
+  color: lightcoral;
+  font-size:2em;
+  border: 0!important;
+  box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1); 
+}
+
 .topnav{
     background-color: white;
     overflow: hidden;
@@ -262,7 +385,7 @@ $gray: #9b9b9b;
   }
 
   .copyright{
-    padding-top: 50%;
+    padding-top: 70%;
     font-size:0.8em;
     color: #859199;
   }
@@ -274,6 +397,9 @@ $gray: #9b9b9b;
   .wrapper{
     display: flex;
     align-items: stretch;
+  }
+  .grade_text{
+    font-size:1.2em;
   }
 
   .sidebar{
@@ -443,7 +569,7 @@ $gray: #9b9b9b;
 
   .hellodiv{
     text-align: center;
-    padding-left: 20%;
+    padding-left: 14%;
   }
 
   .plznotice{
@@ -458,5 +584,17 @@ $gray: #9b9b9b;
     outline: none!important
   }
 
-  .snowflake {   color: black;   font-size: 1em;   font-family: Arial;   text-shadow: 0 0 1px #000; }   @-webkit-keyframes snowflakes-fall{0%{top:-10%}100%{top:100%}}@-webkit-keyframes snowflakes-shake{0%{-webkit-transform:translateX(0px);transform:translateX(0px)}50%{-webkit-transform:translateX(80px);transform:translateX(80px)}100%{-webkit-transform:translateX(0px);transform:translateX(0px)}}@keyframes snowflakes-fall{0%{top:-10%}100%{top:100%}}@keyframes snowflakes-shake{0%{transform:translateX(0px)}50%{transform:translateX(80px)}100%{transform:translateX(0px)}}.snowflake{position:fixed;top:-10%;z-index:9999;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;cursor:default;-webkit-animation-name:snowflakes-fall,snowflakes-shake;-webkit-animation-duration:10s,3s;-webkit-animation-timing-function:linear,ease-in-out;-webkit-animation-iteration-count:infinite,infinite;-webkit-animation-play-state:running,running;animation-name:snowflakes-fall,snowflakes-shake;animation-duration:10s,3s;animation-timing-function:linear,ease-in-out;animation-iteration-count:infinite,infinite;animation-play-state:running,running}.snowflake:nth-of-type(0){left:1%;-webkit-animation-delay:0s,0s;animation-delay:0s,0s}.snowflake:nth-of-type(1){left:10%;-webkit-animation-delay:1s,1s;animation-delay:1s,1s}.snowflake:nth-of-type(2){left:20%;-webkit-animation-delay:6s,.5s;animation-delay:6s,.5s}.snowflake:nth-of-type(3){left:30%;-webkit-animation-delay:4s,2s;animation-delay:4s,2s}.snowflake:nth-of-type(4){left:40%;-webkit-animation-delay:2s,2s;animation-delay:2s,2s}.snowflake:nth-of-type(5){left:50%;-webkit-animation-delay:8s,3s;animation-delay:8s,3s}.snowflake:nth-of-type(6){left:60%;-webkit-animation-delay:6s,2s;animation-delay:6s,2s}.snowflake:nth-of-type(7){left:70%;-webkit-animation-delay:2.5s,1s;animation-delay:2.5s,1s}.snowflake:nth-of-type(8){left:80%;-webkit-animation-delay:1s,0s;animation-delay:1s,0s}.snowflake:nth-of-type(9){left:90%;-webkit-animation-delay:3s,1.5s;animation-delay:3s,1.5s}
+  .register_finger{
+    all:unset;
+    color:gray;
+    padding-top: 1%;
+    padding-left:1%;
+    font-size:1.5em;
+  }
+
+  .register_finger:focus{
+    outline:none;
+  }
+
+  .snowflake {   color: skyblue;   font-size: 1em;   font-family: Arial;   text-shadow: 0 0 1px #000; }   @-webkit-keyframes snowflakes-fall{0%{top:-10%}100%{top:100%}}@-webkit-keyframes snowflakes-shake{0%{-webkit-transform:translateX(0px);transform:translateX(0px)}50%{-webkit-transform:translateX(80px);transform:translateX(80px)}100%{-webkit-transform:translateX(0px);transform:translateX(0px)}}@keyframes snowflakes-fall{0%{top:-10%}100%{top:100%}}@keyframes snowflakes-shake{0%{transform:translateX(0px)}50%{transform:translateX(80px)}100%{transform:translateX(0px)}}.snowflake{position:fixed;top:-10%;z-index:9999;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;cursor:default;-webkit-animation-name:snowflakes-fall,snowflakes-shake;-webkit-animation-duration:10s,3s;-webkit-animation-timing-function:linear,ease-in-out;-webkit-animation-iteration-count:infinite,infinite;-webkit-animation-play-state:running,running;animation-name:snowflakes-fall,snowflakes-shake;animation-duration:10s,3s;animation-timing-function:linear,ease-in-out;animation-iteration-count:infinite,infinite;animation-play-state:running,running}.snowflake:nth-of-type(0){left:1%;-webkit-animation-delay:0s,0s;animation-delay:0s,0s}.snowflake:nth-of-type(1){left:10%;-webkit-animation-delay:1s,1s;animation-delay:1s,1s}.snowflake:nth-of-type(2){left:20%;-webkit-animation-delay:6s,.5s;animation-delay:6s,.5s}.snowflake:nth-of-type(3){left:30%;-webkit-animation-delay:4s,2s;animation-delay:4s,2s}.snowflake:nth-of-type(4){left:40%;-webkit-animation-delay:2s,2s;animation-delay:2s,2s}.snowflake:nth-of-type(5){left:50%;-webkit-animation-delay:8s,3s;animation-delay:8s,3s}.snowflake:nth-of-type(6){left:60%;-webkit-animation-delay:6s,2s;animation-delay:6s,2s}.snowflake:nth-of-type(7){left:70%;-webkit-animation-delay:2.5s,1s;animation-delay:2.5s,1s}.snowflake:nth-of-type(8){left:80%;-webkit-animation-delay:1s,0s;animation-delay:1s,0s}.snowflake:nth-of-type(9){left:90%;-webkit-animation-delay:3s,1.5s;animation-delay:3s,1.5s}
 </style>
