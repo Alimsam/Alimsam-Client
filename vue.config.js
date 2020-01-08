@@ -16,5 +16,5 @@ module.exports = {
       }
     }
   },
-  "outputDir": "../realback/public",
+  "outputDir": "../Alimsam-Server/public"
 }

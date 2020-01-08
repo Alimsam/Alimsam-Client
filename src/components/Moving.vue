@@ -236,8 +236,15 @@ export default {
         } else if(response.data.result == 'back'){
           this.$swal("좋아요!", `${response.data.name}님 복귀상황이 저장 되었습니다.`, "success")
           this.$bvModal.hide('go_outting')
+        } else if(response.data == 'notApply'){
+            this.$swal({
+              icon: 'error',
+              title: '이런!',
+              text: '외출신청을 하지 않으셨나요?',
+              footer: '죄송합니다. 다시 시도 해 주세요'
+            })
         } else {
-          this.$swal({
+              this.$swal({
               icon: 'error',
               title: '이런!',
               text: '지문인식이 제대로 되지 않았어요!',
